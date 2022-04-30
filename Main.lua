@@ -1,16 +1,12 @@
-local frame = CreateFrame("Frame", nil, UIParent)
-frame:SetSize(50, 50)
-frame:SetPoint("CENTER")
-local editBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-editBox:SetPoint("CENTER")
-editBox:SetSize(250, 50)
-editBox:SetAutoFocus(false)
-editBox:SetScript("OnEscapePressed", function(_)
-  editBox:ClearFocus()
-end)
-editBox:SetScript("OnEnterPressed", function(_)
-  editBox:SetPropagateKeyboardInput(true)
-end)
-editBox:SetScript("OnKeyDown", function(_)
-  editBox:SetPropagateKeyboardInput(false)
-end)
+local realCompose = Auctionator.Search.ComposeTooltip
+local LibSerialize = LibStub("LibSerialize")
+
+Auctionator.Search.ComposeTooltip = function(searchTerm)
+  if PointBlankSniper.ItemKeyCache.State.orderedKeys == nil then
+    PointBlankSniper.ItemKeyCache.State.orderedKeys = select(2, LibSerialize:Deserialize(POINT_BLANK_SNIPER_ITEM_CACHE.orderedKeys))
+  end
+  local result = realCompose(searchTerm)
+  local amount = #PointBlankSniper.Scan.GetItemKeys(PointBlankSniper.Utilities.ConvertList({items = {searchTerm}}))
+  table.insert(result.lines, {"Item Keys", amount})
+  return result
+end

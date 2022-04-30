@@ -1,6 +1,0 @@
-## Interface: 90200
-## Title: Frame Test
-## Version: 1
-## Author: plusmouse
-
-Main.xml
