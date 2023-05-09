@@ -6,7 +6,8 @@ Auctionator.Search.ComposeTooltip = function(searchTerm)
     PointBlankSniper.ItemKeyCache.State.orderedKeys = select(2, LibSerialize:Deserialize(POINT_BLANK_SNIPER_ITEM_CACHE.orderedKeys))
   end
   local result = realCompose(searchTerm)
-  local amount = #PointBlankSniper.Scan.GetItemKeys(PointBlankSniper.Utilities.ConvertList({items = {searchTerm}}))
+  local list = CreateAndInitFromMixin(AuctionatorShoppingListMixin, {items = {searchTerm}}, {})
+  local amount = #PointBlankSniper.Scan.GetItemKeys(PointBlankSniper.Utilities.ConvertList(list))
   table.insert(result.lines, {"Item Keys", amount})
   return result
 end
